@@ -8,6 +8,10 @@ export default function Home() {
   const [prompt, setPrompt] = useState<string>('');
   const [schemaFile, setSchemaFile] = useState<File | null>(null);
   const [connectionUrl, setConnectionUrl] = useState<string>('');
+  const [result, setResult] = useState<{
+    data: any;
+    query: string;
+  }>();
 
   const generateSqlFromServer = async () => {
     if (!schemaFile || !prompt || !connectionUrl) {
@@ -20,7 +24,8 @@ export default function Home() {
 
     reader.onload = async function () {
       const schema = reader.result as string;
-      await generateSql(prompt, schema, connectionUrl);
+      const result = await generateSql(prompt, schema, connectionUrl);
+      setResult(result);
     };
   };
 

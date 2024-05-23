@@ -21,6 +21,8 @@ async function getDataFromDatabase(connection_url: string, query: string) {
       connectionString: connection_url,
     });
 
+    await client.connect();
+
     const result = await client.query(query);
     return result.rows;
   } catch (error) {
