@@ -1,4 +1,12 @@
-import { Table, TableBody, TableHead, TableRow } from '@/components/ui/table';
+'use client';
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from '@/components/ui/table';
 
 const DynamicTable = ({ data }: { data: any[] }) => {
   return (
@@ -10,10 +18,10 @@ const DynamicTable = ({ data }: { data: any[] }) => {
           ))}
         </TableRow>
         <TableBody>
-          {data.slice(1).map((row: any, index: number) => (
+          {data.map((row: any, index: number) => (
             <TableRow key={index}>
               {Object.values(row).map((value: any, index: number) => (
-                <TableBody key={index}>{value}</TableBody>
+                <TableCell key={index}>{value && value.toString()}</TableCell>
               ))}
             </TableRow>
           ))}

@@ -2,7 +2,12 @@
 
 import { useState } from 'react';
 
+import { Code, Loader, Loader2 } from 'lucide-react';
+
+import { Button } from '@/components/ui/button';
+
 import { generateSql } from './actions';
+import DynamicTable from './dynamic-table';
 
 export default function Home() {
   const [prompt, setPrompt] = useState<string>('');
@@ -12,9 +17,13 @@ export default function Home() {
     data: any;
     query: string;
   }>();
+  const [showSql, setShowSql] = useState<boolean>(false);
+  const [loader, setLoader] = useState<boolean>(false);
 
   const generateSqlFromServer = async () => {
+    setLoader(true);
     if (!schemaFile || !prompt || !connectionUrl) {
+      setLoader(false);
       alert('Please select a schema file and write a prompt');
       return;
     }
@@ -26,6 +35,7 @@ export default function Home() {
       const schema = reader.result as string;
       const result = await generateSql(prompt, schema, connectionUrl);
       setResult(result);
+      setLoader(false);
     };
   };
 
@@ -33,6 +43,30 @@ export default function Home() {
     <div className="h-screen bg-gray-100 flex flex-col">
       <div className="text-3xl p-3  bg-white">SQL Generator</div>
       <div className="flex-grow flex flex-col justify-end p-3 gap-3">
+        <div className="flex-grow">
+          {loader && (
+            <div className="flex justify-center items-center text-center">
+              <Loader2 className="animate-spin" size={45} />
+            </div>
+          )}
+          {result && (
+            <Button className="gap-2" onClick={() => setShowSql(!showSql)}>
+              Show SQL <Code />{' '}
+            </Button>
+          )}
+          {result && showSql && (
+            <div className="p-2 my-3">
+              <pre className="p-3 bg-black text-white">
+                {result && result.query}
+              </pre>
+            </div>
+          )}
+          {result ? (
+            <DynamicTable data={result.data} />
+          ) : (
+            <div>Generate Something</div>
+          )}
+        </div>
         <div className="flex">
           <input
             placeholder="Select your  schema"
