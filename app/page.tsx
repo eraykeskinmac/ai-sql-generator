@@ -1,10 +1,9 @@
 'use client';
-
 import { useState } from 'react';
-
+import { Bookmark } from 'lucide-react';
+import Dialog from '@/components/ui/dialog';
+import Button from '@/components/ui/button';
 import { Code, Loader2 } from 'lucide-react';
-
-import { Button } from '@/components/ui/button';
 
 import { generateSql } from './actions';
 import DynamicTable from './dynamic-table';
@@ -41,7 +40,46 @@ export default function Home() {
 
   return (
     <div className="h-screen bg-gray-100 flex flex-col">
-      <div className="text-3xl p-3  bg-white">SQL Generator</div>
+      <div className="text-3xl p-3 bg-white flex justify-between">
+        <div>SQL Generator</div>
+        <Dialog.Root>
+          <Dialog.Trigger asChild>
+            <Button.Root variant="ghost" intent="gray">
+              <Button.Icon type="only">
+                <Bookmark />
+              </Button.Icon>
+            </Button.Root>
+          </Dialog.Trigger>
+          <Dialog.Portal>
+            <Dialog.Overlay />
+            <Dialog.Content className="max-w-2xl">
+              <Dialog.Title>Write Your connection url</Dialog.Title>
+              <Dialog.Description className="mt-2">
+                <input
+                  value={connectionUrl}
+                  onChange={(e) => setConnectionUrl(e.target.value)}
+                  type="text"
+                  className="flex-grow text-lg p-2 text-black px-2 py-1 rounded-md w-full"
+                  placeholder="Connection URL"
+                />
+              </Dialog.Description>
+
+              <Dialog.Actions className="mt-4">
+                <Dialog.Close asChild>
+                  <Button.Root variant="outlined" size="sm" intent="gray">
+                    <Button.Label>Cancel</Button.Label>
+                  </Button.Root>
+                </Dialog.Close>
+                <Dialog.Close asChild>
+                  <Button.Root variant="outlined" size="sm" intent="gray">
+                    <Button.Label>Save</Button.Label>
+                  </Button.Root>
+                </Dialog.Close>
+              </Dialog.Actions>
+            </Dialog.Content>
+          </Dialog.Portal>
+        </Dialog.Root>
+      </div>
       <div className="flex-grow flex flex-col justify-end p-3 gap-3">
         <div className="flex-grow">
           {loader && (
@@ -50,9 +88,9 @@ export default function Home() {
             </div>
           )}
           {result && (
-            <Button className="gap-2" onClick={() => setShowSql(!showSql)}>
+            <button className="gap-2" onClick={() => setShowSql(!showSql)}>
               Show SQL <Code />{' '}
-            </Button>
+            </button>
           )}
           {result && showSql && (
             <div className="p-2 my-3">
@@ -69,19 +107,12 @@ export default function Home() {
         </div>
         <div className="flex">
           <input
-            placeholder="Select your  schema"
+            placeholder="Select your schema"
             type="file"
             onChange={(e) => {
               setSchemaFile(e.target.files?.[0] || null);
             }}
           />
-          {/* <input
-            value={connectionUrl}
-            onChange={(e) => setConnectionUrl(e.target.value)}
-            type="text"
-            className="flex-grow text-lg p-2 bg-slate-800 text-white px-2 py-1 rounded-md"
-            placeholder="Connection URL"
-          /> */}
         </div>
         <div className="flex gap-3">
           <input
