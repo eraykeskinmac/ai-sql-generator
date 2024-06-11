@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { Code, Loader, Loader2 } from 'lucide-react';
+import { Code, Loader2 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 
@@ -75,13 +75,13 @@ export default function Home() {
               setSchemaFile(e.target.files?.[0] || null);
             }}
           />
-          <input
+          {/* <input
             value={connectionUrl}
             onChange={(e) => setConnectionUrl(e.target.value)}
             type="text"
             className="flex-grow text-lg p-2 bg-slate-800 text-white px-2 py-1 rounded-md"
             placeholder="Connection URL"
-          />
+          /> */}
         </div>
         <div className="flex gap-3">
           <input
