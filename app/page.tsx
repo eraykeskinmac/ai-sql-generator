@@ -39,39 +39,41 @@ export default function Home() {
   };
 
   return (
-    <div className="h-screen bg-gray-100 flex flex-col">
-      <div className="text-3xl p-3 bg-white flex justify-between">
+    <div className="h-screen text-white flex flex-col container mx-auto">
+      <div className="text-3xl p-3  flex justify-between">
         <div>SQL Generator</div>
         <Dialog.Root>
           <Dialog.Trigger asChild>
-            <Button.Root variant="ghost" intent="gray">
+            <Button.Root>
               <Button.Icon type="only">
-                <Bookmark />
+                <Bookmark color="white" />
               </Button.Icon>
             </Button.Root>
           </Dialog.Trigger>
           <Dialog.Portal>
             <Dialog.Overlay />
             <Dialog.Content className="max-w-2xl">
-              <Dialog.Title>Write Your connection url</Dialog.Title>
+              <Dialog.Title className="text-white">
+                Write Your connection url
+              </Dialog.Title>
               <Dialog.Description className="mt-2">
                 <input
                   value={connectionUrl}
                   onChange={(e) => setConnectionUrl(e.target.value)}
                   type="text"
-                  className="flex-grow text-lg p-2 text-black px-2 py-1 rounded-md w-full"
+                  className="flex-grow text-lg p-2  px-2 py-1  w-full bg-[#1A1A1A] text-white border rounded-xl border-gray-600 focus:outline-none  placeholder-gray-400"
                   placeholder="Connection URL"
                 />
               </Dialog.Description>
 
               <Dialog.Actions className="mt-4">
                 <Dialog.Close asChild>
-                  <Button.Root variant="outlined" size="sm" intent="gray">
+                  <Button.Root variant="outlined" size="sm" intent="neutral">
                     <Button.Label>Cancel</Button.Label>
                   </Button.Root>
                 </Dialog.Close>
                 <Dialog.Close asChild>
-                  <Button.Root variant="outlined" size="sm" intent="gray">
+                  <Button.Root variant="outlined" size="sm" intent="neutral">
                     <Button.Label>Save</Button.Label>
                   </Button.Root>
                 </Dialog.Close>
@@ -94,7 +96,7 @@ export default function Home() {
           )}
           {result && showSql && (
             <div className="p-2 my-3">
-              <pre className="p-3 bg-black text-white">
+              <pre className="p-3 bg-white text-black">
                 {result && result.query}
               </pre>
             </div>
@@ -118,15 +120,15 @@ export default function Home() {
           <input
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
+            className="flex-grow text-lg p-2 bg-[#1A1A1A] text-white border rounded-xl border-gray-600 focus:outline-none placeholder-gray-400"
             placeholder="Write your prompt"
-            className="flex-grow text-xl p-2 border-slate-800 rounded-md border-2"
             type="text"
           />
           <button
             onClick={() => {
               generateSqlFromServer();
             }}
-            className="bg-slate-800 text-white px-2 py-1 rounded-md"
+            className="bg-black text-white px-2 py-1 rounded-md"
           >
             Generate SQL
           </button>
